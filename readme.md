@@ -92,3 +92,5 @@ C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.7 Tools>SvcUtil
 
 The URL in the example above should be the link to where the updated CourseOutcomes WCF service is being served.  It can be a local, test, or production environment. The example above will generate new client code in C#, save it in file `CourseOutcomes.cs`, and put it in the C:\ directory.  You can then copy that code to Class Schedule.
 
+ * [More info about SvcUtil.exe](https://docs.microsoft.com/en-us/dotnet/framework/wcf/servicemodel-metadata-utility-tool-svcutil-exe)
+
