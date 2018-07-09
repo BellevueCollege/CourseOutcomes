@@ -15,38 +15,33 @@ namespace CourseOutcomesWCF
 	// NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "CourseOutcomes" in code, svc and config file together.
 	public class CourseOutcomes : IService1
 	{
-		public string GetCourseOutcome(string CourseID)
-		{
+        public string GetCourseOutcome(string courseSubject, string courseNumber)
+        {
 
 
-			string LearningOutcomeOutput = "<ul><li>No outcome found for " + CourseID + "</li></ul>";
+            string learningOutcomeOutput = String.Format("<ul><li>No outcome found for {0} {1}</li></ul>", courseSubject, courseNumber);
 
-			using (CurriculumEntities db = new CurriculumEntities()) 
-			{
-				CourseID = CourseID.Replace('^', '&');
-				var results = db.usp_SELECT_LearningOutcomes(CourseID);
+            using (CurriculumEntities db = new CurriculumEntities())
+            {
+                courseSubject = courseSubject.Replace('^', '&');
+                var results = db.usp_SELECT_CourseOutcomes(courseSubject.Trim(), courseNumber.Trim());
 
-				
+                foreach (string outcome in results)
+                {
+                    learningOutcomeOutput = outcome;
+                }
 
-				foreach (string outcome in results)
-				{
-					LearningOutcomeOutput = outcome;
-				}
+            }
 
-			}
+            return learningOutcomeOutput;
+        }
 
-
-			return LearningOutcomeOutput;
-		}
-
-		public string GetData(int data)
+        public string GetData(int data)
 		{
 			return string.Format("You entered: {0}", data);
 		}
 
-
-
-		public CompositeType GetDataUsingDataContract(CompositeType composite)
+        public CompositeType GetDataUsingDataContract(CompositeType composite)
 		{
 			if (composite == null)
 			{

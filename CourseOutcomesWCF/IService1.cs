@@ -21,7 +21,7 @@ namespace CourseOutcomesWCF
 		CompositeType GetDataUsingDataContract(CompositeType composite);
 
 		[OperationContract]
-		string GetCourseOutcome(string CourseID);
+		string GetCourseOutcome(string courseSubject, string courseNumber);
 	}
 
 

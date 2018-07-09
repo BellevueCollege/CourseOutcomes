@@ -68,29 +68,29 @@ namespace CourseOutcomesWCF.Model
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<LearningOutcome> LearningOutcomes
+        public ObjectSet<CourseOutcome> CourseOutcomes
         {
             get
             {
-                if ((_LearningOutcomes == null))
+                if ((_CourseOutcomes == null))
                 {
-                    _LearningOutcomes = base.CreateObjectSet<LearningOutcome>("LearningOutcomes");
+                    _CourseOutcomes = base.CreateObjectSet<CourseOutcome>("CourseOutcomes");
                 }
-                return _LearningOutcomes;
+                return _CourseOutcomes;
             }
         }
-        private ObjectSet<LearningOutcome> _LearningOutcomes;
+        private ObjectSet<CourseOutcome> _CourseOutcomes;
 
         #endregion
 
         #region AddTo Methods
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the LearningOutcomes EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the CourseOutcomes EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToLearningOutcomes(LearningOutcome learningOutcome)
+        public void AddToCourseOutcomes(CourseOutcome courseOutcome)
         {
-            base.AddObject("LearningOutcomes", learningOutcome);
+            base.AddObject("CourseOutcomes", courseOutcome);
         }
 
         #endregion
@@ -100,20 +100,31 @@ namespace CourseOutcomesWCF.Model
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        /// <param name="courseID">No Metadata Documentation available.</param>
-        public ObjectResult<global::System.String> usp_SELECT_LearningOutcomes(global::System.String courseID)
+        /// <param name="courseSubject">No Metadata Documentation available.</param>
+        /// <param name="courseNumber">No Metadata Documentation available.</param>
+        public ObjectResult<global::System.String> usp_SELECT_CourseOutcomes(global::System.String courseSubject, global::System.String courseNumber)
         {
-            ObjectParameter courseIDParameter;
-            if (courseID != null)
+            ObjectParameter courseSubjectParameter;
+            if (courseSubject != null)
             {
-                courseIDParameter = new ObjectParameter("CourseID", courseID);
+                courseSubjectParameter = new ObjectParameter("CourseSubject", courseSubject);
             }
             else
             {
-                courseIDParameter = new ObjectParameter("CourseID", typeof(global::System.String));
+                courseSubjectParameter = new ObjectParameter("CourseSubject", typeof(global::System.String));
             }
     
-            return base.ExecuteFunction<global::System.String>("usp_SELECT_LearningOutcomes", courseIDParameter);
+            ObjectParameter courseNumberParameter;
+            if (courseNumber != null)
+            {
+                courseNumberParameter = new ObjectParameter("CourseNumber", courseNumber);
+            }
+            else
+            {
+                courseNumberParameter = new ObjectParameter("CourseNumber", typeof(global::System.String));
+            }
+    
+            return base.ExecuteFunction<global::System.String>("usp_SELECT_CourseOutcomes", courseSubjectParameter, courseNumberParameter);
         }
 
         #endregion
@@ -127,22 +138,22 @@ namespace CourseOutcomesWCF.Model
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="CurriculumModel", Name="LearningOutcome")]
+    [EdmEntityTypeAttribute(NamespaceName="CurriculumModel", Name="CourseOutcome")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class LearningOutcome : EntityObject
+    public partial class CourseOutcome : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new LearningOutcome object.
+        /// Create a new CourseOutcome object.
         /// </summary>
-        /// <param name="courseID">Initial value of the CourseID property.</param>
-        public static LearningOutcome CreateLearningOutcome(global::System.String courseID)
+        /// <param name="outcomesID">Initial value of the OutcomesID property.</param>
+        public static CourseOutcome CreateCourseOutcome(global::System.Int32 outcomesID)
         {
-            LearningOutcome learningOutcome = new LearningOutcome();
-            learningOutcome.CourseID = courseID;
-            return learningOutcome;
+            CourseOutcome courseOutcome = new CourseOutcome();
+            courseOutcome.OutcomesID = outcomesID;
+            return courseOutcome;
         }
 
         #endregion
@@ -152,77 +163,125 @@ namespace CourseOutcomesWCF.Model
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String CourseID
+        public global::System.String CourseSubject
         {
             get
             {
-                return _CourseID;
+                return _CourseSubject;
             }
             set
             {
-                if (_CourseID != value)
+                OnCourseSubjectChanging(value);
+                ReportPropertyChanging("CourseSubject");
+                _CourseSubject = StructuralObject.SetValidValue(value, true, "CourseSubject");
+                ReportPropertyChanged("CourseSubject");
+                OnCourseSubjectChanged();
+            }
+        }
+        private global::System.String _CourseSubject;
+        partial void OnCourseSubjectChanging(global::System.String value);
+        partial void OnCourseSubjectChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Code
+        {
+            get
+            {
+                return _Code;
+            }
+            set
+            {
+                OnCodeChanging(value);
+                ReportPropertyChanging("Code");
+                _Code = StructuralObject.SetValidValue(value, true, "Code");
+                ReportPropertyChanged("Code");
+                OnCodeChanged();
+            }
+        }
+        private global::System.String _Code;
+        partial void OnCodeChanging(global::System.String value);
+        partial void OnCodeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Catalog
+        {
+            get
+            {
+                return _Catalog;
+            }
+            set
+            {
+                OnCatalogChanging(value);
+                ReportPropertyChanging("Catalog");
+                _Catalog = StructuralObject.SetValidValue(value, true, "Catalog");
+                ReportPropertyChanged("Catalog");
+                OnCatalogChanged();
+            }
+        }
+        private global::System.String _Catalog;
+        partial void OnCatalogChanging(global::System.String value);
+        partial void OnCatalogChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String CourseOutcomes
+        {
+            get
+            {
+                return _CourseOutcomes;
+            }
+            set
+            {
+                OnCourseOutcomesChanging(value);
+                ReportPropertyChanging("CourseOutcomes");
+                _CourseOutcomes = StructuralObject.SetValidValue(value, true, "CourseOutcomes");
+                ReportPropertyChanged("CourseOutcomes");
+                OnCourseOutcomesChanged();
+            }
+        }
+        private global::System.String _CourseOutcomes;
+        partial void OnCourseOutcomesChanging(global::System.String value);
+        partial void OnCourseOutcomesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 OutcomesID
+        {
+            get
+            {
+                return _OutcomesID;
+            }
+            set
+            {
+                if (_OutcomesID != value)
                 {
-                    OnCourseIDChanging(value);
-                    ReportPropertyChanging("CourseID");
-                    _CourseID = StructuralObject.SetValidValue(value, false, "CourseID");
-                    ReportPropertyChanged("CourseID");
-                    OnCourseIDChanged();
+                    OnOutcomesIDChanging(value);
+                    ReportPropertyChanging("OutcomesID");
+                    _OutcomesID = StructuralObject.SetValidValue(value, "OutcomesID");
+                    ReportPropertyChanged("OutcomesID");
+                    OnOutcomesIDChanged();
                 }
             }
         }
-        private global::System.String _CourseID;
-        partial void OnCourseIDChanging(global::System.String value);
-        partial void OnCourseIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String LearningOutcome1
-        {
-            get
-            {
-                return _LearningOutcome1;
-            }
-            set
-            {
-                OnLearningOutcome1Changing(value);
-                ReportPropertyChanging("LearningOutcome1");
-                _LearningOutcome1 = StructuralObject.SetValidValue(value, true, "LearningOutcome1");
-                ReportPropertyChanged("LearningOutcome1");
-                OnLearningOutcome1Changed();
-            }
-        }
-        private global::System.String _LearningOutcome1;
-        partial void OnLearningOutcome1Changing(global::System.String value);
-        partial void OnLearningOutcome1Changed();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.DateTime> LastUpdated
-        {
-            get
-            {
-                return _LastUpdated;
-            }
-            set
-            {
-                OnLastUpdatedChanging(value);
-                ReportPropertyChanging("LastUpdated");
-                _LastUpdated = StructuralObject.SetValidValue(value, "LastUpdated");
-                ReportPropertyChanged("LastUpdated");
-                OnLastUpdatedChanged();
-            }
-        }
-        private Nullable<global::System.DateTime> _LastUpdated;
-        partial void OnLastUpdatedChanging(Nullable<global::System.DateTime> value);
-        partial void OnLastUpdatedChanged();
+        private global::System.Int32 _OutcomesID;
+        partial void OnOutcomesIDChanging(global::System.Int32 value);
+        partial void OnOutcomesIDChanged();
 
         #endregion
 
