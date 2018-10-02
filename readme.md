@@ -62,15 +62,15 @@ This service provides an endpoint for pulling learning outcomes for a given cour
 
 ### Endpoint
 
-```GetCourseOutcome(string courseId)```
+```GetCourseOutcome(string courseSubject, string courseNumber)```
 
-Get learning outcomes for a course by course id.
+Get learning outcomes for a course by course subject and course number.
 
 Example usage:
 
 ```csharp
 Service1Client client = new ServiceClient();
-string rawCourseOutcomes = client.GetCourseOutcome("PHIL 247");
+string rawCourseOutcomes = client.GetCourseOutcome("PHIL", "247");
 ```
 
 ## Development 
