@@ -62,18 +62,35 @@ This service provides an endpoint for pulling learning outcomes for a given cour
 
 ### Endpoint
 
-```GetCourseOutcome(string courseId)```
+```GetCourseOutcome(string courseSubject, string courseNumber)```
 
-Get learning outcomes for a course by course id.
+Get learning outcomes for a course by course subject and course number.
 
 Example usage:
 
 ```csharp
 Service1Client client = new ServiceClient();
-string rawCourseOutcomes = client.GetCourseOutcome("PHIL 247");
+string rawCourseOutcomes = client.GetCourseOutcome("PHIL", "247");
 ```
 
-## Development Requirements
+## Development 
+
+### Requirements
 
  - .NET 4.7
  - Visual Studio 2015 or 2017
+
+### How to update client code
+
+If you change the CourseOutcomes web service - add a function, change parameters for an existing function, etc - you will need to generate updated client code for use in applications utilizing the service. Currently, the only BC application using the CourseOutcomes web service is Class Schedule. Class Schedule includes the client code directly in [Common/CourseOutcomes.cs](https://github.com/BellevueCollege/ClassSchedule/blob/dev/ClassSchedule.Web/Common/CourseOutcomes.cs).
+
+To generate the client code, you will need to use `SvcUtil.exe`, included with .NET tools (example location below, but your version may be elsewhere depending on your setup).
+
+```
+C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.7 Tools>SvcUtil.exe /directory:C:\ /language:csharp /out:CourseOutcomes.cs https://wherever.bellevuecollege.edu/courseoutcomes/Service1.svc?wsdl
+```
+
+The URL in the example above should be the link to where the updated CourseOutcomes WCF service is being served.  It can be a local, test, or production environment. The example above will generate new client code in C#, save it in file `CourseOutcomes.cs`, and put it in the C:\ directory.  You can then copy that code to Class Schedule.
+
+ * [More info about SvcUtil.exe](https://docs.microsoft.com/en-us/dotnet/framework/wcf/servicemodel-metadata-utility-tool-svcutil-exe)
+

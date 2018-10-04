@@ -4,47 +4,44 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="CurriculumModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="CurriculumModelStoreContainer">
-          <EntitySet Name="LearningOutcome" EntityType="CurriculumModel.Store.LearningOutcome" store:Type="Tables" store:Schema="dbo" store:Name="LearningOutcome" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
-            <DefiningQuery>SELECT 
-      [LearningOutcome].[CourseID] AS [CourseID], 
-      [LearningOutcome].[LearningOutcome] AS [LearningOutcome], 
-      [LearningOutcome].[LastUpdated] AS [LastUpdated]
-      FROM [dbo].[LearningOutcome] AS [LearningOutcome]</DefiningQuery>
-          </EntitySet>
-        </EntityContainer>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'Curriculum.dbo.LearningOutcome' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
-        <EntityType Name="LearningOutcome">
+    <Schema Namespace="CurriculumModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CourseOutcomes">
           <Key>
-            <PropertyRef Name="CourseID" />
+            <PropertyRef Name="OutcomesID" />
           </Key>
-          <Property Name="CourseID" Type="varchar" Nullable="false" MaxLength="10" />
-          <Property Name="LearningOutcome" Type="varchar(max)" />
-          <Property Name="LastUpdated" Type="datetime" />
+          <Property Name="CourseSubject" Type="varchar" MaxLength="6" />
+          <Property Name="Code" Type="varchar" MaxLength="10" />
+          <Property Name="Catalog" Type="varchar" MaxLength="50" />
+          <Property Name="CourseOutcomes" Type="varchar(max)" />
+          <Property Name="OutcomesID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
-        <Function Name="usp_SELECT_LearningOutcomes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="CourseID" Type="varchar" Mode="In" />
+        <Function Name="usp_SELECT_CourseOutcomes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CourseSubject" Type="varchar" Mode="In" />
+          <Parameter Name="CourseNumber" Type="varchar" Mode="In" />
         </Function>
+        <EntityContainer Name="CurriculumModelStoreContainer">
+          <EntitySet Name="CourseOutcomes" EntityType="Self.CourseOutcomes" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CurriculumModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
         <EntityContainer Name="CurriculumEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
-          <EntitySet Name="LearningOutcomes" EntityType="CurriculumModel.LearningOutcome" />
-          <FunctionImport Name="usp_SELECT_LearningOutcomes" ReturnType="Collection(String)">
-            <Parameter Name="CourseID" Mode="In" Type="String" />
+          <EntitySet Name="CourseOutcomes" EntityType="CurriculumModel.CourseOutcome" />
+          <FunctionImport Name="usp_SELECT_CourseOutcomes" ReturnType="Collection(String)">
+            <Parameter Name="CourseSubject" Mode="In" Type="String" />
+            <Parameter Name="CourseNumber" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
-        <EntityType Name="LearningOutcome">
+        <EntityType Name="CourseOutcome">
           <Key>
-            <PropertyRef Name="CourseID" />
+            <PropertyRef Name="OutcomesID" />
           </Key>
-          <Property Name="CourseID" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
-          <Property Name="LearningOutcome1" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
-          <Property Name="LastUpdated" Type="DateTime" />
+          <Property Name="CourseSubject" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Catalog" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CourseOutcomes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="OutcomesID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -52,12 +49,18 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="CurriculumModelStoreContainer" CdmEntityContainer="CurriculumEntities">
-          <EntitySetMapping Name="LearningOutcomes"><EntityTypeMapping TypeName="CurriculumModel.LearningOutcome"><MappingFragment StoreEntitySet="LearningOutcome">
-            <ScalarProperty Name="CourseID" ColumnName="CourseID" />
-            <ScalarProperty Name="LearningOutcome1" ColumnName="LearningOutcome" />
-            <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="usp_SELECT_LearningOutcomes" FunctionName="CurriculumModel.Store.usp_SELECT_LearningOutcomes" />
+          <EntitySetMapping Name="CourseOutcomes">
+            <EntityTypeMapping TypeName="CurriculumModel.CourseOutcome">
+              <MappingFragment StoreEntitySet="CourseOutcomes">
+                <ScalarProperty Name="OutcomesID" ColumnName="OutcomesID" />
+                <ScalarProperty Name="CourseOutcomes" ColumnName="CourseOutcomes" />
+                <ScalarProperty Name="Catalog" ColumnName="Catalog" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="CourseSubject" ColumnName="CourseSubject" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_SELECT_CourseOutcomes" FunctionName="CurriculumModel.Store.usp_SELECT_CourseOutcomes" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -74,12 +77,13 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="Curriculum">
-        <EntityTypeShape EntityType="CurriculumModel.LearningOutcome" Width="1.5" PointX="1.125" PointY="1.25" Height="1.59568359375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CurriculumModel.CourseOutcome" Width="1.5" PointX="3.375" PointY="0.75" />
       </Diagram>
     </Diagrams>
   </Designer>
